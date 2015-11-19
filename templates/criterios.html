@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block css%}
+{% endblock %}
+
+
+{% block container %}
+<div class="col-md-10 col-md-offset-1 container">
+	
+
+	<div class="col-md-12 text-center">
+		<h2>Proceso de evaluación</h2>
+		<hr>
+	</div>
+
+	<div class="col-md-12">
+		<h3>Primera etapa</h3>
+
+		<p>La evaluación será realizada a través de una tabla con cinco puntos a evaluar con notas del 1 al 7 (siendo 1 la peor evaluación y 7 la mejor). La nota final de cada imagen será el promedio de las notas puestas por el jurado.</p>
+
+		<div class="col-md-3">
+			<div class="panel panel-warning">
+			  <div class="panel-heading text-center">Originalidad</div>
+			  <div class="panel-body text-center">
+			    Fotografía novedosa (visión personal).
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-success">
+			  <div class="panel-heading text-center">Composición</div>
+			  <div class="panel-body text-center">
+			    disposición de los objetos dentro del encuadre (perspectiva, horizonte, equilibrio entre los elementos, impacto visual, luz, contraste, color, etc.).
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-danger">
+			  <div class="panel-heading text-center">Técnica</div>
+			  <div class="panel-body text-center">
+			    calidad de la imagen, enfoque, nitidez, imágenes con exceso de retoques (las bases solo permiten retoques mínimos de brillo,  tono o contraste)
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-primary">
+			  <div class="panel-heading text-center">Mensaje</div>
+			  <div class="panel-body text-center">
+			    la imagen debe reconocer los espacios y las personas que conforma la FCFM
+			  </div>
+			</div>
+		</div>
+				
+	</div>
+	<div class="col-md-12">
+
+		<h3>Segunda etapa</h3>
+
+		<p>
+			De las 10 fotografías con más alto puntaje, el jurado deberá darle una puntuación de 1 a 7 (siendo 1 la peor nota y 7 la mejor). Las imágenes ganadoras serán las que obtengan los tres más altos puntajes.
+		</p>
+		<br/>
+
+	</div>
+	<div class="col-md-12">
+
+		<h3>Tercera Etapa</h3>
+		<p>
+			Esta etapa se realizará solo si hay empate. El proceso será el mismo de la segunda etapa con las fotografías que obtuvieron la misma evaluación.
+		</p>
+		<br/>
+
+	</div>
+
+</div>
+{% endblock %}

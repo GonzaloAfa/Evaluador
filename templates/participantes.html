@@ -1,11 +1,38 @@
 {% extends "base.html" %}
 
 {% block css%}
+<script type="text/javascript">
+
+
+function getHasVote(participante){
+
+	var url = '{% url "hasvote" 989 %}';
+	url 	= url.replace(989, participante);
+
+	$.ajax({
+	  type: "GET",
+	  url: url,
+	  success:function(data){
+
+	  	for (var i = 0; i < data.length; i++) {
+
+	  		if(data[i]['voto']){
+	  			$( ".votos"+participante).append( '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>');
+	  		}else {
+	  			$( ".votos"+participante).append( '<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>');
+	  		}
+	  	}
+	  }
+	});
+}
+
+</script>
 
 {% endblock %}
 
 
 {% block container %}
+
 <div class="container">
 
 	<div class="col-md-12">
@@ -42,16 +69,12 @@
 					</td>
 					<td>
 
-						{% if participante.n_fotos == "1" %}							
-							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-						{% elif participante.n_fotos == "2" %}
-							<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-						{% elif participante.n_fotos == "3" %}
-							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-						{% endif %}
+						<script type="text/javascript">
+							getHasVote({{participante.participante}});
+						</script>
+						<div class="votos{{participante.participante}}">
+						</div>
+
 					</td>
 
 
@@ -102,4 +125,6 @@
 
 	</div>	
 </div>
+
+
 {% endblock %}
