@@ -129,3 +129,5 @@ STATIC_ROOT = 'media'
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PATH = '/home/concurso/www/'
