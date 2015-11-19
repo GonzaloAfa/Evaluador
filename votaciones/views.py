@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
@@ -38,6 +40,18 @@ def participantes(request, page):
 
 
 	return render(request, 'participantes.html', context)
+
+
+
+#listado de participantes
+@login_required(login_url='/')
+def criterios(request):
+
+	context = dict()
+
+	return render(request, 'criterios.html', context)
+
+
 
 
 @login_required(login_url='/')
@@ -115,13 +129,25 @@ def fotografias(request, participante, foto):
 
 
 ## Sirve para consultar si la votacion ya fue realizada
-def hasvote(request, participante, foto ):
+def hasvote(request, participante):
 
-	voto = Voto.objects.filter(participante__participante =participante).filter(foto__identificador = foto)
+	fotos = Foto.objects.filter(participante__participante = participante)
 
-	if voto:
-		data = {'status': True}
-	else:
-		data = {'status': False}
+	data = []
+
+	for foto in fotos:
+
+		voto = Voto.objects.filter(jurado = request.user).filter(participante__participante =participante).filter(foto=foto)
+
+		if voto:
+			data.append({
+					'id'			: foto.identificador,
+					'participante' 	: participante,
+					'voto' 			: True})
+		else:
+			data.append({
+					'id'			: foto.identificador,
+					'participante' 	: participante,
+					'voto' 			: False})
 
 	return HttpResponse(json.dumps(data), content_type='application/json')
