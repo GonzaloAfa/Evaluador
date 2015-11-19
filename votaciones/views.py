@@ -151,3 +151,12 @@ def hasvote(request, participante):
 					'voto' 			: False})
 
 	return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def theBest(request):
+
+	fotos = Foto.objects.all()
+
+	
+
+	context = dict()
