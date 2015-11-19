@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# C extensions
+*.so
+
+
+# Archivos raros
+*~
+
+# Distribution / packaging
+.Python
+env/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+media/images/
+media/files/
+administration/migrations/
+*.egg-info/
+.installed.cfg
+*.egg
+
+
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+
+
+
+#Others files
+env
+staticfiles
+.env
+
+
