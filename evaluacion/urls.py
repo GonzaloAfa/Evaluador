@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^getphotos$'  , 'participantes.views.getPhotos'   , name='getphotos'),
     url(r'^participantes/(?P<page>\d+)$', 'votaciones.views.participantes' , name='participantes'),
     url(r'^fotografias/(?P<participante>\d+)/(?P<foto>\d+)$', 'votaciones.views.fotografias' , name='fotografias'),
-    url(r'^hasvote$'    , 'votaciones.views.hasvote'        , name='hasvote'),
+    url(r'^hasvote/(?P<participante>\d+)$', 'votaciones.views.hasvote', name='hasvote'),
+    url(r'^criterios/$', 'votaciones.views.criterios' , name='criterios'),
 
 
 
