@@ -21,6 +21,7 @@ class Foto(models.Model):
 	fecha 			= models.CharField(max_length=30)
 	identificador 	= models.CharField(max_length=5)
 	guardada		= models.BooleanField(default=None)
+	finalista 		= models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.nombre
