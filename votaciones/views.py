@@ -1,3 +1,8 @@
+from operator import itemgetter, attrgetter, methodcaller
+
+
+
+
 import json
 
 from django.shortcuts import render, render_to_response, get_object_or_404
@@ -60,6 +65,7 @@ def fotografias(request, participante, foto):
 	context = dict()
 	fotos =	Foto.objects.filter(participante__participante = participante).filter(identificador=foto)
 
+	last_id_foto = Foto.objects.latest('id')
 
 	if fotos:
 
@@ -67,8 +73,13 @@ def fotografias(request, participante, foto):
 			backFoto = fotos[0]
 		else:
 			backFoto = Foto.objects.get(pk= fotos[0].id - 1)
-	
-		nextFoto = Foto.objects.get(pk= fotos[0].id + 1)
+		
+
+		if fotos[0].id == last_id_foto.id:	
+			nextFoto = fotos[0]
+		else:
+			nextFoto = Foto.objects.get(pk= fotos[0].id + 1)
+
 
 		voto = Voto.objects.filter(jurado = request.user).filter(participante=fotos[0].participante).filter(foto=fotos[0])
 
@@ -153,10 +164,89 @@ def hasvote(request, participante):
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
 
-def theBest(request):
+def listEvaluation(request):
 
-	fotos = Foto.objects.all()
+	data = []
 
-	
+	fotos 	= Foto.objects.all()
+	jurados	= User.objects.all()
 
-	context = dict()
+
+	for foto in fotos:
+
+		evaluaciones 	= []
+		sumatoria		= 0
+
+
+		for jurado in jurados:
+
+			votos = Voto.objects.filter(foto = foto).filter(jurado=jurado)
+			
+			if votos:
+				voto = votos[0]
+
+				evaluaciones.append({
+					"jurado" 	: jurado.username,
+					"promedio"	: voto.promedio,
+					})
+				sumatoria = sumatoria + float(voto.promedio)
+
+			else:
+				evaluaciones.append({
+					"jurado"	: jurado.username,
+					"promedio"	: "1",
+					})
+				sumatoria = sumatoria + float(1)
+
+		data.append({
+			"fotografia" 	: foto.nombre,
+			"participante" 	: foto.participante.participante,
+			"id"			: foto.identificador,
+			"evaluaciones"	: evaluaciones,
+			"promedio"		: str(sumatoria/jurados.count()),
+		})
+			
+
+	return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def resumenEvaluation(request):
+
+	data = []
+
+	fotos 	= Foto.objects.all()
+	jurados	= User.objects.all()
+
+
+
+	for foto in fotos:
+
+		sumatoria	= 0
+		faltantes 	= []
+
+
+		for jurado in jurados:
+
+			votos = Voto.objects.filter(foto = foto).filter(jurado=jurado)
+			
+			if votos:
+				voto = votos[0]
+				sumatoria = sumatoria + float(voto.promedio)
+
+			else:
+				faltantes.append({
+					"jurado"	: str(jurado.first_name)+" "+str(jurado.last_name) 	# jurado.username
+					})
+
+				sumatoria 	= sumatoria + float(1)
+
+		data.append({
+			"promedio"		: str(sumatoria/jurados.count()),
+			"fotografia" 	: foto.nombre,
+			"participante" 	: foto.participante.participante,
+			"id"			: foto.identificador,
+			"votantes"		: Voto.objects.filter(foto = foto).count(),
+			"faltantes"		: faltantes,
+		})
+
+	return HttpResponse(json.dumps(data), content_type='application/json')

@@ -22,6 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 urlpatterns = [
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'jurados.views.login_session', name ='login'),
     url(r'^logout/$','jurados.views.logout_session' , name ='logout'),
@@ -32,7 +33,7 @@ urlpatterns = [
     url(r'^fotografias/(?P<participante>\d+)/(?P<foto>\d+)$', 'votaciones.views.fotografias' , name='fotografias'),
     url(r'^hasvote/(?P<participante>\d+)$', 'votaciones.views.hasvote', name='hasvote'),
     url(r'^criterios/$', 'votaciones.views.criterios' , name='criterios'),
-
-
+    url(r'^listEvaluation/$', 'votaciones.views.listEvaluation' , name='listEvaluation'),
+    url(r'^resumenEvaluation/$', 'votaciones.views.resumenEvaluation' , name='resumenEvaluation'),
 
 ]
