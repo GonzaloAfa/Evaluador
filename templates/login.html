@@ -15,6 +15,18 @@
 
     <!-- Custom styles for this template -->
     <link href="{{STATIC_URL}}css/signin.css" rel="stylesheet">
+    <style type="text/css">
+      .logo{
+        padding-bottom: 30px;
+      }
+      .background{
+        background: #000;
+      }
+      .footer{
+        padding-top: 40px;
+      }
+
+    </style>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -27,17 +39,19 @@
   </head>
 
 
-
-  <body>
+  <body class="background">
 
       <div class="container">
+        <div class="col-md-offset-2 col-md-8 col-xs-12 block-center logo">
+          <img src="{{STATIC_URL}}images/concurso.jpg" class="img-responsive">
+        </div>
 
         <form class="form-signin" role="form" id="login_form" method="post" action="{% url 'login' %}">
 
           {% csrf_token %}
 
-          <input type="username" class="form-control" name="username" placeholder="Username" required autofocus>
-          <input type="password" class="form-control" name="password" placeholder="Password" required>
+          <input type="username" class="form-control" name="username" placeholder="Email" required autofocus>
+          <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
           
           <button class="btn btn-lg btn-success btn-block" type="submit">
             Ingresar
@@ -46,9 +60,13 @@
         </form>
       </div> <!-- /container -->
 
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
   </body>
+  <footer class="footer">
+    <div class="col-md-offset-4 col-md-4 block-center">
+      <img src="{{STATIC_URL}}images/FCFM.png" class="img-responsive">
+    </div>
+  </footer>
 </html>
