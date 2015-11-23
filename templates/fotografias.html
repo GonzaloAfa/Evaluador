@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
 {% block css%}
+<style type="text/css">
+	a.guardar {
+	    background-color: #eea236 !important;
+	    color: #fff !important;
+}
 
+</style>
 {% endblock %}
 
 
 {% block container %}
-<div class="col-md-12 container">
+<div class="container-fluid">
+
+	<div class="col-md-12">
 
 	{% for foto in fotos %}
 
@@ -14,8 +22,8 @@
 		<div class="col-md-12">
 			<h4>Participante #{{foto.participante.participante}} Foto {{foto.identificador |add:"1"}} de {{foto.participante.n_fotos}}</h4>
 		</div>
-		<div class="col-md-12 text-center">
-			<img class="imagen-concurso" src="{{STATIC_URL}}img/concurso_ID_{{foto.participante.participante}}_{{foto.identificador}}_min.jpg" >			
+		<div class="col-md-12 block-center">
+			<img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{foto.participante.participante}}_{{foto.identificador}}_min.jpg" >			
 		</div>
 		<div class="col-md-12 text-center">
 		<p></p>
@@ -23,9 +31,6 @@
 				href="{{STATIC_URL}}img/concurso_ID_{{foto.participante.participante}}_{{foto.identificador}}.jpg">Foto original
 			</a>
 		</div>
-
-
-
 	</div>
 
 	<div class="col-md-5">
@@ -34,7 +39,7 @@
 		</div>		
 		
 		<div class="col-md-9">
-			<small>{{foto.lugar}}</small>
+			{{foto.lugar}}
 		</div>
 		<div class="col-md-3">
 			{{foto.fecha}}
@@ -43,13 +48,16 @@
 		<div class="col-md-12">
 			<hr>
 			<h5><strong>Criterios de evaluación</strong></h5>
+			<small><p>La evaluación se debe realizar en escala de 1 al 7, donde 1 es la peor y 7 la mejor</p></small>
+			<br/>
 
  			<form class="form-signin" role="form" id="login_form" method="POST" 
  			action="{% url 'fotografias' foto.participante.participante foto.identificador %}">
           	
           		{% csrf_token %}
-
-				<div class="col-md-12">				
+          		<div class="col-md-8">
+          			
+				<div>				
 					<div class="col-md-6">
 						<!-- Button trigger modal -->
 						<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#originalidad">
@@ -92,7 +100,7 @@
 					</div>				
 				</div>
 
-				<div class="col-md-12">				
+				<div>				
 					<div class="col-md-6">
 
 						<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#composicion">
@@ -133,7 +141,7 @@
 					</div>			
 				</div>
 				
-				<div class="col-md-12">				
+				<div>				
 					<div class="col-md-6">
 
 						<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#tecnica">
@@ -174,7 +182,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-12">
+				<div>
 					<div class="col-md-6">
 						<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#mensaje">
 						  Mensaje
@@ -215,18 +223,16 @@
 					</div>
 					<br/>
 				</div>
-
-				<div class="col-md-12">
-					<div class="col-md-4 text-center col-md-offset-4">
-						<br/>
+				</div>
+					<div class="col-md-4 text-center">
 						<div class="panel panel-default">
 						  <div class="panel-heading">Promedio</div>
 						  <div class="panel-body">
-						    <h1> <div id="promedio"></div></h1>
+						    <h1> <div id="promedio">-</div></h1>
 						  </div>
-						</div>
 					</div>				
 				</div>
+
 				<div class="col-md-12">
 					<div class="col-md-2">
 						
@@ -239,32 +245,83 @@
 				</div>
 
 				<div class="col-md-12 text-center">
-					<hr>
-					<a type="button" class="btn btn-primary" alt="Siguiente" 
-					href="{% url 'fotografias' atrasFoto.participante.participante atrasFoto.identificador %}">	
-						Atrás
-					</a>				
+
+					<div class="col-md-4">
+						<ul class="pager">
+					    	<li class="previous">
+					    		<a href="{% url 'fotografias' atrasFoto.participante.participante atrasFoto.identificador %}"><span aria-hidden="true">&larr;</span> Atrás</a>
+					    	</li>
+					  	</ul>
+					</div>
+
+					<div class="col-md-4 text-center">
+						<ul  class="pagination">
+							<li>
+								<button type="submit" class="btn btn-warning">Guardar</button>
+							</li>
+						</ul>
+					</div>
+
+					<div class="col-md-4">
+						<ul class="pager">
+					    	<li class="next">
+					    		<a href="{% url 'fotografias' siguienteFoto.participante.participante siguienteFoto.identificador %}">Siguiente <span aria-hidden="true">&rarr;</span></a>
+					    	</li>
+					  	</ul>
+					</div>
 
 
-					<button class="btn btn-success" type="submit">
-						Guardar
-					</button>
 					
-					<a type="button" class="btn btn-primary" alt="Siguiente" 
-					href="{% url 'fotografias' siguienteFoto.participante.participante siguienteFoto.identificador %}">	
-						Siguiente
-					</a>				
 				</div>
 
 			</form>
 
 
-		</div>
-		
+		</div>		
 	</div>
 	{% endfor %}
-
 </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+/* Cálculo del promedio de la evaluación */
+function promedio(){
+	var originalidad 	= parseInt($('#option-originalidad').val());
+	var composicion 	= parseInt($('#option-composicion').val());
+	var tecnica 		= parseInt($('#option-tecnica').val());
+	var mensaje 		= parseInt($('#option-mensaje').val());
+
+	console.log("originalidad "+originalidad+" - composicion: "+composicion);
+	console.log("tecnica "+tecnica+" - mensaje: "+mensaje);
+
+	var promedio = (originalidad + composicion + tecnica + mensaje)/4;
+	
+	if (promedio == 1){
+		$("#promedio").text("-");
+	}else{
+		$("#promedio").text(promedio);
+	}
+}	
+
+$(document).ready(function(){
+	$("#option-originalidad").change(promedio);
+	$("#option-composicion").change(promedio);
+	$("#option-tecnica").change(promedio);
+	$("#option-mensaje").change(promedio);
+
+});
+
+promedio()
+
+</script>
+
+{% endblock %}
+
+
+{% block modal %}
 
 
 <!-- Modal -->
@@ -342,35 +399,5 @@
   </div>
 </div>
 
-
-<script type="text/javascript">
-
-/* Cálculo del promedio de la evaluación */
-function promedio(){
-	var originalidad 	= parseInt($('#option-originalidad').val());
-	var composicion 	= parseInt($('#option-composicion').val());
-	var tecnica 		= parseInt($('#option-tecnica').val());
-	var mensaje 		= parseInt($('#option-mensaje').val());
-
-	console.log("originalidad "+originalidad+" - composicion: "+composicion);
-	console.log("tecnica "+tecnica+" - mensaje: "+mensaje);
-
-	var promedio = (originalidad + composicion + tecnica + mensaje)/4;
-	
-	$("#promedio").text(promedio);
-	console.log(promedio);
-}	
-
-$(document).ready(function(){
-	$("#option-originalidad").change(promedio);
-	$("#option-composicion").change(promedio);
-	$("#option-tecnica").change(promedio);
-	$("#option-mensaje").change(promedio);
-
-});
-
-promedio()
-
-</script>
-
+			
 {% endblock %}

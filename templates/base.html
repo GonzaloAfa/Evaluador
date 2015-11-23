@@ -19,6 +19,18 @@
 
 			height: auto;
 		}
+		.navbar-inverse {
+		    background-color: #000;
+		}
+		.navbar {
+ 		   border-radius: 0px;
+ 		}
+ 		.pager {
+		    margin: 0px 0;
+    	}
+    	.pagination {
+		    margin: 0px 0;
+		}
 
 
 	</style>
@@ -27,7 +39,7 @@
 	{% endblock %}
 </head>
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -37,7 +49,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{% url 'participantes' 1 %}">2° Concurso</a>
+      <a href="{% url 'participantes' 1 %}">
+      	<img src="{{STATIC_URL}}images/logo-concurso.jpg" class="img-responsive">
+      </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -45,10 +59,10 @@
 
 	    <ul class="nav navbar-nav">
 	        <li class="active">
-	        	<a href="{% url 'participantes' 1 %}">Fotografías</a>
+	        	<a href="{% url 'participantes' 1 %}">Inicio</a>
 	        </li>
 	        <li>
-	        	<a href="{% url 'criterios' %}">Criterios</span></a>
+	        	<a href="{% url 'criterios' %}">Instrucciones</span></a>
 	        </li>
 
 	    </ul>
@@ -68,11 +82,17 @@
 			
 {% endblock %}
 
-	<div>
-	 	<div class="col-md-12 text-center">
-	 		<hr>
-	 		Sistema desarrollado por <a href="http://www.twitter.com/gonzaloafa">@GonzaloAfa</a> 2015
-	 	</div>
-		
+<div class="footer">
+<hr>
+	<div class="col-md-3 ">
+		<a href="http://ingenieria.uchile.cl"><img src="{{STATIC_URL}}images/FCFM-blanco.png" class="img-responsive"></a>
 	</div>
+	<div class="col-md-2 col-md-offset-7 block-center text-center">
+		Desarrollado por<br/>
+		<a href="http://www.afachile.cl"><img src="{{STATIC_URL}}images/AfaChile.png" class="img-responsive"></a>
+	</div>
+</div>
 
+{% block modal %}
+			
+{% endblock %}

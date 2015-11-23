@@ -18,8 +18,6 @@ function getHasVote(participante){
 
 	  		if(data[i]['voto']){
 	  			$( ".votos"+participante).append( '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>');
-	  		}else {
-	  			$( ".votos"+participante).append( '<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>');
 	  		}
 	  	}
 	  }
@@ -42,9 +40,9 @@ function getHasVote(participante){
 		  		<tr>
 		  			<th>Participante</th>
 		  			<th>Fotos en competencia</th>
-		  			<th>Fotos ya evaluadas</th>
+		  			<th>Fotos evaluadas</th>
 
-		            <th class="text-right">Opcion</th>
+		            <th class="text-right">Evaluar</th>
 		          </tr>
 		    </thead>
 
@@ -80,8 +78,7 @@ function getHasVote(participante){
 
 
 					<td class="text-right">
-						<a type="button" class="btn btn-success" href="/fotografias/{{participante.participante}}/0">
-							<span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span>
+						<a type="button" class="btn btn-danger btn-sm" href="/fotografias/{{participante.participante}}/0">
 							Evaluar
 
 						</a>
@@ -91,38 +88,32 @@ function getHasVote(participante){
 		    </tbody>
 		</table>
 
-		<div class="col-md-12">
-			<div class="col-md-2">
-				Página {{participantes.number}} de {{participantes.paginator.num_pages}}
-			</div>
-			<div class="col-md-8 text-center">
-				<ul class="pagination">
-				{%if participantes.has_previous %}
-					<li>
-						<a href="{% url 'participantes' participantes.previous_page_number %}">&laquo; Atrás</a>
-					</li>
-					{% else %}
-					<li>
-						<a href="{% url 'participantes' 1 %}">&laquo; Atrás</a>
-					</li>
-					{% endif %}
-						
-					{%if participantes.has_next %}
-					<li>
-						<a href="{% url 'participantes' participantes.next_page_number %}">
-						Siguiente &raquo;</a>
-					</li>
-				{% endif %}	  
-				</ul>
-			</div>
-			<div class="col-md-2">
-			</div>
+		<div class="col-md-4">
+			<ul class="pager">
+			{%if participantes.has_previous %}
+				<li class="previous">
+					<a href="{% url 'participantes' participantes.previous_page_number %}">&laquo; Atrás</a>
+				</li>
+			{% endif %}
+			</ul>
+		</div>
 
-			
+		<div class="col-md-4 text-center">
+			Página {{participantes.number}} de {{participantes.paginator.num_pages}}
+		</div>
+
+		<div class="col-md-4">
+			<ul class="pager">
+			{%if participantes.has_next %}
+				<li class="next">
+					<a href="{% url 'participantes' participantes.next_page_number %}">
+					Siguiente &raquo;</a>
+				</li>
+			{% endif %}	  
+			</ul>
 		</div>
 
 		
-
 	</div>	
 </div>
 
