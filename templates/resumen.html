@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block css%}
+
+{% endblock %}
+
+
+{% block container %}
+
+<div class="container">
+
+	<div class="col-md-12">
+		
+		<table  class="table table-condensed">
+			<thead>
+		  		<tr>
+		  			<th>#</th>
+		  			<th>Fotografía</th>
+		  			<th class="text-center">Votantes</th>
+		            <th class="text-center">Promedio</th>
+		            <th class="text-right">Ver</th>
+		          </tr>
+		    </thead>
+		    <tbody>
+		    	{% for element in data %}
+
+		    	<tr>
+		    		<td>{{forloop.counter}}</td>
+					<td>{{element.fotografia}}</td>
+					<td class="text-center">{{element.votantes}}</td>
+					<td class="text-center">{{element.promedio | floatformat:2}}</td>
+					<td class="text-right"><a class="btn btn-danger" href="{% url 'fotografias' element.participante element.id %}">Ver</a>
+				</tr>
+				{% endfor %}
+		    </tbody>
+		</table>
+		
+	</div>	
+</div>
+
+
+{% endblock %}

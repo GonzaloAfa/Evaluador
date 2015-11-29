@@ -213,7 +213,8 @@ def listEvaluation(request):
 def resumenEvaluation(request):
 
 	data = []
-
+	context = dict()
+	
 	fotos 	= Foto.objects.all()
 	jurados	= User.objects.all()
 
@@ -235,7 +236,7 @@ def resumenEvaluation(request):
 
 			else:
 				faltantes.append({
-					"jurado"	: str(jurado.first_name)+" "+str(jurado.last_name) 	# jurado.username
+					"jurado"	: str(jurado.email)
 					})
 
 				sumatoria 	= sumatoria + float(1)
@@ -249,4 +250,6 @@ def resumenEvaluation(request):
 			"faltantes"		: faltantes,
 		})
 
-	return HttpResponse(json.dumps(data), content_type='application/json')
+	context["data"] = sorted(data, key=lambda k: k['promedio'], reverse=True) 
+
+	return render(request, 'resumen.html', context)	
