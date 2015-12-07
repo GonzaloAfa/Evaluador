@@ -19,3 +19,12 @@ class Voto(models.Model):
 
 	finalista 		= models.BooleanField(default=False)
 	criterio_5 		= models.CharField(max_length=10)
+
+
+
+class Finalistas(models.Model):
+	jurado 			= models.ForeignKey(User)
+	
+	primer			= models.CharField(max_length=10)
+	segundo			= models.CharField(max_length=10)
+	tercero			= models.CharField(max_length=10)

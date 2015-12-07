@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block css%}
+<style type="text/css">
+
+	.box-vote {
+	    padding-bottom: 20px;
+	    padding-top: 20px;
+	}
+
+	.box-vote button {
+    	margin-top: -35px;
+	}
+
+	.no-padding {
+	  margin-left: 0 !important;
+	  margin-right: 0 !important;
+	  
+	  padding-left: 0px !important;
+	  padding-right: 0px !important;
+	  
+	}
+
+	.panel-danger>.panel-heading {
+	    color: 				#FFFFFF;
+	    background-color: 	#d9534f;
+	    border-color: 		#d9534f; 
+	    font-weight: 900;
+	    text-transform: uppercase;
+	}
+
+
+	.panel-body {
+    	padding: 0px !important;
+	}
+
+	.name-photo {
+	    font-weight: 900;
+	    text-transform: uppercase;
+
+	    background-color: #0059A3;
+	    color: white;
+
+	    border-radius: 5px 5px 5px 5px;
+		-moz-border-radius: 5px 5px 5px 5px;
+		-webkit-border-radius: 5px 5px 5px 5px;
+		border: 0px solid #000000;
+	}
+	
+	.name-person {
+	    font-style: italic;
+	}
+	.name-rut {
+	    font-size: smaller;
+	}
+</style>
+{% endblock %}
+
+
+{% block container %}
+
+<div class="container">
+	<div class="col-md-12 text-center">
+		<h1>Segunda etapa de evaluación</h1>	
+	</div>
+
+	{% if puedevotar %}
+
+		<div class="col-md-10">
+			<p>Cada jurado tendrá que <strong>escoger 3 fotografías</strong> entre las 10 clasificadas de la primera etapa, las que deben ser seleccionadas en el orden de prioridad (primera foto debería tener el primer lugar, la segunda el segundo, etc)</p>
+			
+			<p>Las imágenes ganadoras serán las que obtengan los tres más altos puntajes.</p>
+			<div class="panel panel-primary text-center">
+				<div class="panel-heading">Fotografías clasificadas</div>
+				<div class="panel-body">
+
+					<div class="col-md-12 no-padding">
+
+					{% for finalista in finalistas %}
+						
+							{% if forloop.counter0|divisibleby:3 %}
+								</div>
+								<div class="col-md-12 no-padding">
+							{% endif %}
+
+							<div class="col-md-4 text-center box-vote">
+								<img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{finalista.participante.participante}}_{{finalista.identificador}}_min.jpg" >
+								
+								<button type="button" 
+									class="btn btn-default btnPhoto"
+									competitor="{{finalista.participante.participante}}" 
+								  	id="{{finalista.id}}" 
+								  	idphoto="{{finalista.identificador}}">
+								  	Seleccionar
+								</button>
+							</div>
+					{% endfor %}		
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-2">
+			<div class="panel panel-danger text-center">
+				<div class="panel-heading">Evaluación</div>
+				<div class="panel-body"> 
+					<div class="list-select"></div> 
+				</div>
+			</div>	
+			<div class="col-md-12 text-center">
+				<button type="button" class="btn btn-default clear">Cancelar</button>
+				<button type="button" class="btn btn-success send">Enviar</button>
+			</div>
+		</div>
+	{% else %}
+
+	<div class="col-md-12 text-center">
+		<h4>Usted ya indicó cuales deberían ser las fotografías ganadoras del 2° concurso fotográfico. Estas fueron sus preferencias:</h4>
+	</div>
+
+
+	<div class="col-md-12">
+
+		<div class="col-md-4 text-center">
+			<div class="panel panel-danger">
+			  <div class="panel-heading"><STRONG>1° lugar</STRONG></div>
+			  <div class="panel-body">
+			    <img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{photo_first.participante.participante}}_{{photo_first.identificador}}_min.jpg" >
+			  </div>
+			</div>
+			
+			<div class="name-photo">{{photo_first.nombre}}</div>
+			<div class="name-person">{{photo_first.participante.nombre}}</div>
+			<div class="name-rut">{{photo_first.participante.rut}}</div>
+						
+		</div>
+
+
+		<div class="col-md-4 text-center">
+			<div class="panel panel-danger">
+			  <div class="panel-heading"><STRONG>2° lugar</STRONG></div>
+			  <div class="panel-body">
+			    <img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{photo_second.participante.participante}}_{{photo_second.identificador}}_min.jpg" >
+			  </div>
+			</div>			
+			
+			<div class="name-photo">{{photo_second.nombre}}</div>
+			<div class="name-person">{{photo_second.participante.nombre}}</div>
+			<div class="name-rut">{{photo_second.participante.rut}}</div>
+
+		</div>
+
+		<div class="col-md-4 text-center">
+			<div class="panel panel-danger">
+			  <div class="panel-heading"><STRONG>3° lugar</STRONG></div>
+			  <div class="panel-body">
+			    <img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{photo_third.participante.participante}}_{{photo_third.identificador}}_min.jpg" >
+			  </div>
+			</div>
+			<div class="name-photo">{{photo_third.nombre}}</div>
+			<div class="name-person">{{photo_third.participante.nombre}}</div>
+			<div class="name-rut">{{photo_third.participante.rut}}</div>
+
+		</div>		
+		
+	</div>
+	{% endif %}
+
+</div>
+
+
+
+<script type="text/javascript">
+var list = [];
+
+
+var init = function(){
+
+	for (var i = 0; i < list.length; i++) {
+		$("#"+list[i]).show();
+	};
+
+	list = [];
+
+	$(".list-select").empty();
+	$(".list-select").append("Aún no han seleccionado fotografía");
+	$(".send").hide();	
+};
+
+
+
+
+$(".btnPhoto").click(function(event){
+
+	if(list.length == 0){
+		$(".list-select").empty();
+		$(".send").hide();
+	}
+
+
+	if(list.length < 3){
+
+		var idphoto 	= $(this).attr("idphoto"); 
+		var competitor 	= $(this).attr("competitor"); 
+
+		var img 	= '<img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_'+
+						competitor+'_'+idphoto+'_min.jpg" >'
+
+
+
+		list.push(event.target.id);
+		$(".list-select").append(img+list.length+'° Lugar<br/>');
+
+
+		if(list.length == 3){
+			$(".send").show();
+		}
+
+		$("#"+event.target.id).hide();
+
+	}else{
+		$.bootstrapGrowl('Ya escogiste tus 3 fotografías', {
+	        type: 'danger',
+	        allow_dismiss: false,
+	        offset: {
+	            from: 'bottom',
+	            amount: 20
+	        },
+	        position: {
+            	from: "bottom",
+            	align: "right"
+        	},
+	        width: 250,
+	        delay: 1000,
+	        allow_dismiss: true, // add a close button to the message
+	        stackup_spacing: 10
+	    });
+
+	}
+});
+
+
+$(".clear").click(init);
+
+
+$(".send").click(function(){
+
+	var url = '{% url "rateFinalist" 991 992 993 %}';
+
+	url 	= url.replace(991, list[0]);
+	url 	= url.replace(992, list[1]);
+	url 	= url.replace(993, list[2]);
+
+	$.ajax({
+	  type	: "GET",
+	  url 	: url,
+	  success:function(data){
+	  	data = data[0];
+
+		$.bootstrapGrowl(data.msg, {
+	        type: data.code,
+	        allow_dismiss: false,
+	        offset: {
+	            from: 'bottom',
+	            amount: 20
+	        },
+	        position: {
+            	from: "bottom",
+            	align: "right"
+        	},
+	        width: 250,
+	        delay: 2000,
+	        allow_dismiss: true, // add a close button to the message
+	        stackup_spacing: 10
+	    });
+
+		$(".send").hide();
+	  }
+	});
+
+});
+
+
+
+
+
+init();
+
+</script>
+
+{% endblock %}

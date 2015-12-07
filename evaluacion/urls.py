@@ -34,5 +34,7 @@ urlpatterns = [
     url(r'^criterios/$', 'votaciones.views.criterios' , name='criterios'),
     url(r'^listEvaluation/$', 'votaciones.views.listEvaluation' , name='listEvaluation'),
     url(r'^resumenEvaluation/$', 'votaciones.views.resumenEvaluation' , name='resumenEvaluation'),
-    
+    url(r'^finalist/$', 'votaciones.views.finalist' , name='finalist'),
+    url(r'^rateFinalist/(?P<first>\d+)/(?P<second>\d+)/(?P<third>\d+)/$', 'votaciones.views.rateFinalist', name='rateFinalist'),
+
 ]

@@ -16,7 +16,7 @@ from django.core import serializers
 
 
 from participantes.models import Participante, Foto
-from votaciones.models import Voto
+from votaciones.models import Voto, Finalistas
 from jurados.models import Jurado
 from django.contrib.auth.models import User
 
@@ -218,8 +218,6 @@ def resumenEvaluation(request):
 	fotos 	= Foto.objects.all()
 	jurados	= User.objects.all()
 
-
-
 	for foto in fotos:
 
 		sumatoria	= 0
@@ -253,3 +251,80 @@ def resumenEvaluation(request):
 	context["data"] = sorted(data, key=lambda k: k['promedio'], reverse=True) 
 
 	return render(request, 'resumen.html', context)	
+
+@login_required(login_url='/')
+def finalist(request):
+	context = dict()
+
+	finalist 	= Foto.objects.filter(finalista = True)
+	vote 		= Finalistas.objects.filter(jurado = request.user)
+
+
+	context['finalistas'] 	= finalist
+
+	if vote:
+		vote = vote[0]
+
+		context['puedevotar'] 	= False
+		context["photo_first"] 	= Foto.objects.get(pk=vote.primer)
+		context["photo_second"] = Foto.objects.get(pk=vote.segundo)
+		context["photo_third"] 	= Foto.objects.get(pk=vote.tercero)
+
+
+
+	else:
+		context['puedevotar'] 	= True
+
+
+	return render(request, 'finalist.html', context)
+
+
+def rateFinalist(request, first, second, third):
+
+	context = dict()
+	data 	= []
+
+	first	= int(first)
+	second 	= int(second)
+	third	= int(third)
+
+	photo_first 	= Foto.objects.get(pk=first)
+	photo_second 	= Foto.objects.get(pk=second)
+	photo_third 	= Foto.objects.get(pk=third)
+
+	print request.user 
+
+	vote = Finalistas.objects.filter(jurado = request.user)
+
+	if vote:
+
+		# ya voto
+		data.append({
+			'msg' : "Usted ya voto",
+			'code': 'danger',
+			})		
+	else:
+		if photo_first.finalista and photo_second.finalista and photo_third.finalista:
+			
+			newVote = Finalistas.objects.create(
+				jurado = request.user,
+				primer = first,
+				segundo= second,
+				tercero= third
+			)
+
+			newVote.save()
+
+			data.append({
+				'msg' : "Voto guardado con exito",
+				'code': "success",
+				})
+		else:
+			data.append({
+				'msg' : "hay fotos que no son finalistas",
+				'code': 'danger',
+				})
+
+
+
+	return HttpResponse(json.dumps(data), content_type='application/json')
