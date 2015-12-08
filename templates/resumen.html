@@ -16,19 +16,20 @@
 		  		<tr>
 		  			<th>#</th>
 		  			<th>Fotografía</th>
+		  			<th>Autor</th>
 		  			<th class="text-center">Votantes</th>
 		            <th >Quienes Faltan</th>
 		            <th class="text-center">Promedio</th>
 		            <th class="text-right">Ver</th>
-		            
-		          </tr>
+		        </tr>
 		    </thead>
 		    <tbody>
 		    	{% for element in data %}
-
 		    	<tr>
 		    		<td>{{forloop.counter}}</td>
 					<td>{{element.fotografia}}</td>
+					<td>{{element.autor}}</td>
+
 					<td class="text-center">{{element.votantes}}</td>
 					<td>
 						<ul>
@@ -38,7 +39,6 @@
 						</ul>
 					</td>
 					<td class="text-center">{{element.promedio | floatformat:2}}</td>
-					
 					<td class="text-right"><a class="btn btn-danger" href="{% url 'fotografias' element.participante element.id %}">Ver</a>
 				</tr>
 				{% endfor %}

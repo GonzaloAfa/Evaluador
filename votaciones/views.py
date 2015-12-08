@@ -236,13 +236,14 @@ def resumenEvaluation(request):
 				faltantes.append({
 					"jurado"	: str(jurado.email)
 					})
-
+				
 				sumatoria 	= sumatoria + float(1)
 
 		data.append({
 			"promedio"		: str(sumatoria/jurados.count()),
 			"fotografia" 	: foto.nombre,
 			"participante" 	: foto.participante.participante,
+			"autor" 		: foto.participante.nombre,
 			"id"			: foto.identificador,
 			"votantes"		: Voto.objects.filter(foto = foto).count(),
 			"faltantes"		: faltantes,
