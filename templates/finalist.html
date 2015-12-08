@@ -84,7 +84,15 @@
 							{% endif %}
 
 							<div class="col-md-4 text-center box-vote">
-								<img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{finalista.participante.participante}}_{{finalista.identificador}}_min.jpg" >
+								<a href="" data-toggle="modal" data-target="#modalPhoto"
+								class="photo-finalist"
+								data-id="{{STATIC_URL}}img/concurso_ID_{{finalista.participante.participante}}_{{finalista.identificador}}_min.jpg"
+								>
+
+
+								<img class="img-responsive" src="{{STATIC_URL}}img/concurso_ID_{{finalista.participante.participante}}_{{finalista.identificador}}_min.jpg" 
+								>
+								</a>
 								
 								<button type="button" 
 									class="btn btn-default btnPhoto"
@@ -129,10 +137,7 @@
 			  </div>
 			</div>
 			
-			<div class="name-photo">{{photo_first.nombre}}</div>
-			<div class="name-person">{{photo_first.participante.nombre}}</div>
-			<div class="name-rut">{{photo_first.participante.rut}}</div>
-						
+			<div class="name-photo">{{photo_first.nombre}}</div>						
 		</div>
 
 
@@ -166,6 +171,18 @@
 	</div>
 	{% endif %}
 
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalPhoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="img"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -280,6 +297,18 @@ $(".send").click(function(){
 
 });
 
+
+$(".photo-finalist").click(function(){
+
+     var img = $(this).data('id');
+     $(".modal-body #img").empty();
+     $(".modal-body #img").append('<img src="'+img+'" class="img-responsive">');
+
+
+});
+
+$(document).on("click", ".open-AddBookDialog", function () {
+});
 
 
 
