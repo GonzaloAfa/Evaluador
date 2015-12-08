@@ -21,7 +21,7 @@ def logout_session(request):
 def login_session(request):
 
 	if not request.user.is_anonymous():
-		return HttpResponseRedirect(reverse('participantes', kwargs={'page':1} ))
+		return HttpResponseRedirect(reverse('finalist' ))
 
 	if request.method == 'POST':
 
@@ -34,7 +34,7 @@ def login_session(request):
 			if access.is_active:
 
 				login(request, access)
-				return HttpResponseRedirect(reverse('participantes', kwargs={'page':1}))
+				return HttpResponseRedirect(reverse('finalist'))
 			else:
 				return HttpResponseRedirect(reverse('login'))
 		else:
