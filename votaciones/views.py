@@ -223,6 +223,8 @@ def resumenEvaluation(request):
 		sumatoria	= 0
 		faltantes 	= []
 
+		votacion = []
+
 
 		for jurado in jurados:
 
@@ -232,10 +234,18 @@ def resumenEvaluation(request):
 				voto = votos[0]
 				sumatoria = sumatoria + float(voto.promedio)
 
+				votacion.append({
+					"voto" : voto.promedio
+				})
+
 			else:
 				faltantes.append({
 					"jurado"	: str(jurado.email)
 					})
+
+				votacion.append({
+					"voto" : float(1)
+				})
 				
 				sumatoria 	= sumatoria + float(1)
 
@@ -247,6 +257,7 @@ def resumenEvaluation(request):
 			"id"			: foto.identificador,
 			"votantes"		: Voto.objects.filter(foto = foto).count(),
 			"faltantes"		: faltantes,
+			"votacion"		: votacion,
 		})
 
 	context["data"] = sorted(data, key=lambda k: k['promedio'], reverse=True) 

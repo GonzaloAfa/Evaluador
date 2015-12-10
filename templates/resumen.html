@@ -16,10 +16,19 @@
 		  		<tr>
 		  			<th>#</th>
 		  			<th>Fotografía</th>
-		  			<th>Autor</th>
+		  			
 		  			<th class="text-center">Votantes</th>
-		            <th >Quienes Faltan</th>
+
+		            <th class="text-center">J1</th>
+		            <th class="text-center">J2</th>
+		            <th class="text-center">J3</th>
+		            <th class="text-center">J4</th>
+		            <th class="text-center">J5</th>
+		            <th class="text-center">J6</th>
+		            <th class="text-center">J7</th>
+
 		            <th class="text-center">Promedio</th>
+
 		            <th class="text-right">Ver</th>
 		        </tr>
 		    </thead>
@@ -28,18 +37,16 @@
 		    	<tr>
 		    		<td>{{forloop.counter}}</td>
 					<td>{{element.fotografia}}</td>
-					<td>{{element.autor}}</td>
-
 					<td class="text-center">{{element.votantes}}</td>
-					<td>
-						<ul>
-							{% for e in element.faltantes %}
-								<li>{{e.jurado}}</li>
-							{% endfor %}
-						</ul>
+					{% for e in element.votacion %}
+						<td class="text-center">{{e.voto}}</td>
+					{% endfor %}
+					<td class="text-center danger">
+						<strong>{{element.promedio | floatformat:2}}</strong>
 					</td>
-					<td class="text-center">{{element.promedio | floatformat:2}}</td>
-					<td class="text-right"><a class="btn btn-danger" href="{% url 'fotografias' element.participante element.id %}">Ver</a>
+					<td class="text-right">
+						<a class="btn btn-danger" href="{% url 'fotografias' element.participante element.id %}">Ver</a>
+					</td>
 				</tr>
 				{% endfor %}
 		    </tbody>
