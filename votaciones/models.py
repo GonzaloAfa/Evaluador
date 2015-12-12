@@ -28,3 +28,9 @@ class Finalistas(models.Model):
 	primer			= models.CharField(max_length=10)
 	segundo			= models.CharField(max_length=10)
 	tercero			= models.CharField(max_length=10)
+
+
+class Final(models.Model):
+	jurado 			= models.ForeignKey(User)
+	foto 			= models.ForeignKey(Foto)
+	opcion			= models.CharField(max_length=10)

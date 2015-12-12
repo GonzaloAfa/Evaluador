@@ -16,7 +16,7 @@ from django.core import serializers
 
 
 from participantes.models import Participante, Foto
-from votaciones.models import Voto, Finalistas
+from votaciones.models import Voto, Finalistas, Final
 from jurados.models import Jurado
 from django.contrib.auth.models import User
 
@@ -269,24 +269,15 @@ def finalist(request):
 	context = dict()
 
 	finalist 	= Foto.objects.filter(finalista = True)
-	vote 		= Finalistas.objects.filter(jurado = request.user)
+	vote 		= Final.objects.filter(jurado = request.user)
 
 
 	context['finalistas'] 	= finalist
 
 	if vote:
-		vote = vote[0]
-
 		context['puedevotar'] 	= False
-		context["photo_first"] 	= Foto.objects.get(pk=vote.primer)
-		context["photo_second"] = Foto.objects.get(pk=vote.segundo)
-		context["photo_third"] 	= Foto.objects.get(pk=vote.tercero)
-
-
-
 	else:
 		context['puedevotar'] 	= True
-
 
 	return render(request, 'finalist.html', context)
 
@@ -303,8 +294,6 @@ def rateFinalist(request, first, second, third):
 	photo_first 	= Foto.objects.get(pk=first)
 	photo_second 	= Foto.objects.get(pk=second)
 	photo_third 	= Foto.objects.get(pk=third)
-
-	print request.user 
 
 	vote = Finalistas.objects.filter(jurado = request.user)
 
@@ -338,5 +327,37 @@ def rateFinalist(request, first, second, third):
 				})
 
 
+
+	return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+
+def apiVoteFinal(request, photo, value):
+	context = dict()
+	data 	= []
+	foto = Foto.objects.get(pk=int(photo))
+
+	voto = Final.objects.filter(jurado = request.user).filter(foto = foto)
+
+	if voto:
+		# ya voto
+		data.append({
+			'msg' : "Usted ya voto",
+			'code': 'danger',
+			})	
+	else:
+
+		newVoto = Final.objects.create(
+			jurado 	= request.user,
+			foto 	= foto,
+			opcion  = value,
+		)
+
+		newVoto.save()
+
+		data.append({
+				'msg' : "Voto guardado con exito",
+				'code': "success",
+				})
 
 	return HttpResponse(json.dumps(data), content_type='application/json')
