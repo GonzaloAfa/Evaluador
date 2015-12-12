@@ -67,11 +67,9 @@
 	{% if puedevotar %}
 
 		<div class="col-md-10">
-			<p>Que cada miembro del jurado asigne a cada foto un valor entero 1, 2 o 3, según considere que en forma relativa clasifica para el primer lugar (1), el segundo lugar (2) o el tercer lugar (3) en el concurso.  Las 15 fotografías deben ser evaluadas según este criterio.
-
-Utilizar como indicador de ordenamiento de mérito la suma de los valores asignados para cada foto por los 7 miembros del jurado.  El orden de mérito para la premiación quedaría determinado por la forma como se ordene este indicador, de menor a mayor.</p>
+			<p>A cada fotografía se debe asignar un valor de 1, 2 o 3, según considere el puesto que debe ocupar en el concurso: 1 para el primer lugar, 2 para el segundo lugar o 3 para el tercer lugar.  Las 15 fotografías deben ser evaluadas según este criterio.</p>
 			
-			<p>Las imágenes ganadoras serán las que obtengan los tres más altos puntajes.</p>
+			<p>Las imágenes ganadoras serán las que obtengan los tres menores puntajes.</p>
 			<div class="panel panel-primary text-center">
 				<div class="panel-heading">Fotografías clasificadas</div>
 				<div class="panel-body">
@@ -135,7 +133,7 @@ Utilizar como indicador de ordenamiento de mérito la suma de los valores asigna
 		<div class="col-md-2">
 			<div class="col-md-12 text-center">
 			<p>Cuando ya tengas las 15 fotos seleccionadas, recién podrás enviar tu votación</p>
-				<button type="button" class="btn btn-default clear">Limpiar</button>
+				<button type="button" class="btn btn-default clear">Limpiar votación</button>
 				<button type="button" class="btn btn-success send" >Enviar</button>
 				<div id="msg-send"></div>
 			</div>
@@ -241,7 +239,7 @@ $(".btnPhoto").click(function(event){
 			"value": value
 			});
 
-		if(list.length >= 4){
+		if(list.length >= 13){
 			$('.send').prop('disabled', false);
 		}
 
